@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for post in posts %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ post.image.url }}" class="card-img-top" width="100">
+                <div class="card-body">
+                    <h5 class="card-title">{{post.author}}. {{ post.title }}</h5>
+                    <p class="card-text">{{ post.text|truncatewords:"15" }}</p>
+                </div>
+                <div class="d-flex card-footer justify-content-between">
+                    <small class="text-muted">{{ post.publish_date|timesince }} назад</small>
+                    <small class="text-muted"><a class="text-secondary" href="{% url 'blog:show_post' post.slug %}">Читать пост -></a></small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <h1>Нет ни одного поста!</h1>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

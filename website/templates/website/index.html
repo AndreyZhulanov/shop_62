@@ -1,0 +1,213 @@
+{% extends 'website/base.html' %}
+
+{% block title %}
+<title>Главная</title>
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% for product in products %}
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <div class="d-flex justify-content-between">
+                        <div></div>
+                        <h4 class="my-0 fw-normal" id="header-{{ product.id }}">{{ product.name }}</h4>
+<!--                        <a href="/delete/{{ product.id }}"><button type="button" class="btn-close" id="closeButton" aria-label="Close"></button></a>-->
+                        <button type="button" class="btn-close button-card" id="closeButton" value="{{ product.id }}" aria-label="Close" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ product.price }}<small
+                            class="text-muted fw-light">руб.</small>
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>{{ product.description }}</li>
+                    </ul>
+                    <a href="/buy/{{ product.id }}">
+                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить!</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>Данных нет!</p>
+        {% endfor %}
+    </div>
+
+    {% for el in collection %}
+        {% if forloop.last %}
+            <h1>{{ el }} {{ forloop.revcounter0 }}</h1>
+        {% else %}
+            <p>{{ el }} {{ forloop.revcounter0 }}</p>
+        {% endif %}
+        <p>Случайный элемент {{ collection|random }}</p>
+    {% endfor %}
+
+    <p>{{ string1|default:"Новая надпись о том, что строки нет" }}</p>
+
+    {% if collection|length_is:"6" %}
+        <p>Длина списка: {{ collection|length }}</p>
+    {% endif %}
+
+    <p>{{ collection|join:" // " }}</p>
+
+    {# <p> {{ string|add:collection|join:" // " }} </p> #}
+
+    {{ string|urlizetrunc:"2" }}
+
+    <p>{{ string|wordwrap:"7" }}</p>
+
+    {% if number|divisibleby:"3" %}
+        <p>Делится</p>
+    {% else %}
+        <p>Не делится</p>
+    {% endif %}
+
+    {# {{ date|date:"SHORT_DATE_FORMAT" }} #}
+
+    {% now "d m Y H:m:s" %}
+
+    {% include 'website/modal-delete.html' %}
+
+    {% for i in ''|ljust:"10" %}
+        <p style="color: {% cycle 'red' 'green' 'blue' %}">{{ forloop.counter }}</p>
+    {% endfor %}
+
+    {% if dct %}
+        {{ dct }}
+    {% elif number %}
+        {{ number }}
+    {% elif date %}
+        {{ date }}
+    {% else %}
+        Нет ничего!!!
+    {% endif %}
+
+    {% firstof dct number date "Нет ничего!!!" %}
+
+    {% lorem 2 p random %}
+
+    {# <p> {{ string|add:collection|join:" // " }} </p> #}
+    {% with col=collection|join:" // " %}
+        <p> {{ string|add:col }} </p>
+    {% endwith %}
+
+    {% with col=collection|join:" // " col2=2 %}
+        <p> {{ string|add:col }} {{ col2 }}</p>
+    {% endwith %}
+
+    {% autoescape on %}
+        {{ html }}
+    {% endautoescape %}
+
+    <h2 class="display-6 text-center mb-4">Compare plans</h2>
+
+    <div class="table-responsive">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th style="width: 34%;"></th>
+                <th style="width: 22%;">Free</th>
+                <th style="width: 22%;">Pro</th>
+                <th style="width: 22%;">Enterprise</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row" class="text-start">Public</th>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start">Private</th>
+                <td></td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            </tbody>
+
+            <tbody>
+            <tr>
+                <th scope="row" class="text-start">Permissions</th>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start">Sharing</th>
+                <td></td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start">Unlimited members</th>
+                <td></td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-start">Extra security</th>
+                <td></td>
+                <td></td>
+                <td>
+                    <svg class="bi" width="24" height="24">
+                        <use xlink:href="#check"></use>
+                    </svg>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

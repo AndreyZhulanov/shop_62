@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for el in form %}
+         <div class="mb-3">
+            <div class="form-floating">
+                {% if el.label != 'Картинка к посту' and el.label != 'Категория' %}
+                    {{ el }}
+                    {{ el.label_tag }}
+                {% else %}
+                    {{ el.label }}
+                    {{ el }}
+                {% endif %}
+            </div>
+            {% if el.errors %}
+                <ol>
+                {% for error in el.errors %}
+                    <li><strong class="text-danger">{{ error }}</strong></li>
+                {% endfor %}
+                </ol>
+             {% endif %}
+         </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Опубликовать</button>
+</form>
+<h3>{{ error }}</h3>
+{% endblock %}c4
